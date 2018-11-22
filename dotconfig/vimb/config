@@ -1,0 +1,4 @@
+set hint-keys = fjghdkslatyrueiwoqpbvncmxz
+set home-page = duckduckgo.com
+set editor-command = kitty vim %s
+

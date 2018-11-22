@@ -1,0 +1,56 @@
+general{
+        output_format = "none"
+        colors = true
+        interval = 5
+}
+
+order += "disk /"
+order += "disk /mnt/storage/"
+order += "load"
+order += "volume master"
+order += "wireless wlp2s0"
+order += "battery 1"
+order += "tztime local"
+
+wireless wlp2s0 {
+        format_up = "Yφ:%quality@%essid"
+        format_down = "Yφ: :("
+}
+
+battery 1 {
+        hide_seconds = true
+        integer_battery_capacity = true
+        format = "%status %percentage %remaining"
+        format_down = ":("
+        status_chr = "C"
+        status_bat = "B"
+        status_unk = "U"
+        status_full = "F"
+        path = "/sys/class/power_supply/BAT%d/uevent"
+        low_threshold = 25
+}
+
+tztime local {
+        format = "%Y-%m-%d | %H:%M"
+}
+
+load {
+        format = "%1min"
+}
+
+disk "/" {
+        format = "S:%avail"
+        low_threshold=20
+        prefix_type = custom
+}
+
+disk "/mnt/storage/" {
+    format = "M:%avail"
+    low_threshold=15
+    prefix_type = custom
+}
+
+volume master {
+    format = "V:%volume"
+    format_muted = "MX"
+}

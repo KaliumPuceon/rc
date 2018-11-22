@@ -1,0 +1,3 @@
+#! /bin/bash
+
+feh --bg-fill `ls -d /home/kalium/media/img/wallpaper/ /home/kalium/media/img/wallpaper/*|grep png|sort -R|head -n 1`

@@ -1,0 +1,7 @@
+#! /bin/zsh
+
+# Cleanup Leftovers
+sudo rmmod nvidia nvidia_modeset nvidia-drm &
+sudo tee /proc/acpi/bbswitch <<<OFF &
+
+

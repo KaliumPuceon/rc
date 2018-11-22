@@ -1,0 +1,5 @@
+[user]
+	email = kalium@awful.cloud
+	name = Kali Singh
+[credential]
+	helper = /usr/lib/git-core/git-credential-libsecret
