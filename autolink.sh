@@ -5,6 +5,7 @@ ln -s ./bashrc ~/.bashrc
 ln -s ./zshrc ~/.zshrc
 ln -s ./tmux.conf ~/.tmux.conf
 ln -s ./vimrc ~/.vimrc
+ln -s ./xinitrc ~/.xinitrc
 
 # Setup vim dirs
 mkdir ~/.vim
