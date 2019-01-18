@@ -123,10 +123,9 @@ compinit
 sudo loadkeys ~/.config/keymaps/kalium.map -u 2> /dev/null
 
 # caps -> escape, compose -> ralt, r+lshift -> capslock, win+space -> chlang
-setxkbmap -layout us,gr -option 'caps:escape' -option 'compose:ralt' -option 'grp:win_space_toggle' -option 'shift:both_capslock'  2> /dev/null
+setxkbmap -print -I$HOME/.local/share/xkeymaps -layout us,gr,terezi -option 'caps:escape' -option 'compose:ralt' -option 'grp:win_space_toggle' -option 'shift:both_capslock' | xkbcomp -I$HOME/.local/share/xkeymaps - $DISPLAY 2> /dev/null
 
 # Default editor is nvim
-
 if [ -f /usr/bin/nvim ]; then
     export EDITOR='nvim'
 elif [ -f /usr/bin/vim ]; then
@@ -190,6 +189,10 @@ alias leavei3="i3-msg exit"
 #Kitty Aliases
 alias icat="kitty +kitten icat"
 
+#udisksctl aliases
+alias udm="udisksctl mount -b "
+alias udu="udisksctl unmount -b "
+
 # Joke Aliases
 alias rainbow="fortune|cowsay|lolcat -F 0.5"
 alias fucking="sudo"
@@ -200,6 +203,8 @@ alias abscond="i3-msg exit"
 alias aggreive="rm"
 alias strife="rm"
 alias observe="ls"
+
+fuck(){ sudo !! }
 
 # Cheap diceroll
 roll(){ echo $((( $RANDOM % $1) +1 )) }
@@ -278,6 +283,13 @@ armBuild(){ #Broken ATM, fix back to assembly
 # Git assistant gitignore.io
 function gi() { curl -L -s https://www.gitignore.io/api/$@ ;} #use gitignore.io to make gitignores
 
+alias gentags="ctags -R -f ./.git/tags ."
+
+function upl() {
+    scp $1 adamantine:webroot/upl/$2
+    echo "https://awful.cloud/upl/${2:-1}" | tee | xsel -ib
+}
+
 # Start tmux with better settings
 alias tmux='tmux -2'
 
@@ -285,22 +297,15 @@ alias tmux='tmux -2'
 alias tittysleep='sudo pm-suspend & vlock -a'
 alias tittylock='vlock -a'
 
-# Detect and manage TERM variable
-#if [[ $TERM != "tmux-256color" ]] ; then
-
-#    export TERM=vte-256color;
-
-#fi
-
 # Export custom PATH variable
 export PATH=$PATH:/home/kalium/work/school/raspbian/tools/arm-bcm2708/gcc-linaro-arm-linux-gnueabihf-raspbian-x64/bin:/home/kalium/.local/bin:/home/kalium/opt/scilab/scilab-6.0.1/bin
 
 # Load a DBUS session if not started already
-if test -z "$DBUS_SESSION_BUS_ADDRESS" ; then
+#if test -z "$DBUS_SESSION_BUS_ADDRESS" ; then
     ## if not found, launch a new one
-    eval " $(dbus-launch --sh-syntax --exit-with-session)"
-    echo "D-Bus per-session daemon address is: $DBUS_SESSION_BUS_ADDRESS"
-fi
+#    eval " $(dbus-launch --sh-syntax --exit-with-session)"
+#    echo "D-Bus per-session daemon address is: $DBUS_SESSION_BUS_ADDRESS"
+#fi
 
 # Load zsh syntax highlighting script
 source /usr/share/zsh-syntax-highlighting/zsh-syntax-highlighting.zsh 
@@ -310,3 +315,4 @@ fortune
 
 echo 
 
+# temporary aliases

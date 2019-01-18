@@ -3,7 +3,7 @@ set $mod Mod4
 
 # Font for window titles. Will also be used by the bar unless a different font
 # is used in the bar {} block below.
-font pango:Exo 10
+font pango:Terminus Bold 10
 
 # Use Mouse+$mod to drag floating windows to their wanted position
 floating_modifier $mod
@@ -31,10 +31,10 @@ bindsym $mod+Shift+k move up
 bindsym $mod+Shift+l move right
 
 # Try to implement arrow keys on hklj
-#bindsym $mod+Control+h exec xdotool keyup key Left
-#bindsym $mod+Control+j exec xdotool keyup key Down
-#bindsym $mod+Control+k exec xdotool keyup key Up
-#bindsym $mod+Control+l exec xdotool keyup key Right
+#bindsym $mod+Control+h exec xdotool keydown key Left
+#bindsym $mod+Control+j exec xdotool keydown key Down
+#bindsym $mod+Control+k exec xdotool keydown key Up
+#bindsym $mod+Control+l exec xdotool keydown key Right
 
 # split in horizontal orientation
 bindsym $mod+g split h
@@ -132,10 +132,10 @@ bindsym $mod+Shift+e exec "i3-nagbar -t warning -m 'You pressed the exit shortcu
 mode "resize" {
         # These bindings trigger as soon as you enter the resize mode
 
-        bindsym h resize grow width 15 px or 15 ppt
-        bindsym j resize shrink height 15 px or 15 ppt
-        bindsym k resize grow height 15 px or 15 ppt
-        bindsym l resize shrink width 15 px or 15 ppt
+        bindsym h resize grow width 45 px 
+        bindsym j resize shrink height 45 px
+        bindsym k resize grow height 45 px 
+        bindsym l resize shrink width 45 px
 
         bindsym Shift+h resize grow width 2 px or 2 ppt
         bindsym Shift+j resize shrink height 2 px or 2 ppt
@@ -167,6 +167,12 @@ mode "mouse" {
     bindsym Control+j exec xdotool mousemove_relative --polar 180 300
     bindsym Control+k exec xdotool mousemove_relative --polar 0 300
     bindsym Control+l exec xdotool mousemove_relative --polar 90 300
+
+    bindsym Control+Shift+h exec xdotool mousemove_relative --polar 270 900
+    bindsym Control+Shift+j exec xdotool mousemove_relative --polar 180 900
+    bindsym Control+Shift+k exec xdotool mousemove_relative --polar 0 900
+    bindsym Control+Shift+l exec xdotool mousemove_relative --polar 90 900
+
 
     # These clicks are kinda weird but they work
     bindsym u exec xdotool click 1
@@ -223,16 +229,21 @@ for_window[class="xterm"] floating enable
 for_window[class="XTerm"] floating enable
 for_window[class="vimclip"] floating enable
 for_window[class="cool-retro-term"] floating enable
+for_window[class="blueman.*"] floating enable
 
+# Remove borders from some common windows
+for_window[class="Firefox"] border pixel 2
 
 #Quick Open Bindings
 bindsym $mod+z exec emojione-picker
 bindsym $mod+c exec gnome-calculator
 
+# Prevent C-q killing firefox
+bindsym Control+q exec ~/.local/bin/ctrlqfirefox.sh
+
 #Screenshots with xfce4-screenshooter
 bindsym $mod+Print exec xfce4-screenshooter
 bindsym $mod+Shift+Print exec xfce4-screenshooter -c -r -s /home/kalium/media/img/screenshot/
-
 
 # Lock and Sleep commands
 bindsym $mod+Shift+s exec chdesktop && lockscreen.sh  && sudo pm-suspend
@@ -241,6 +252,10 @@ bindsym $mod+Shift+p exec chdesktop && lockscreen.sh
 # Change Desktop
 bindsym $mod+Shift+d exec chdesktop
 
+# Show Nowplaying
+
+bindsym $mod+Shift+n exec cmus-notify.sh
+
 #Startup things
 exec --no-startup-id guake # Quaketerm
 exec --no-startup-id compton # Transparency
@@ -248,16 +263,18 @@ exec --no-startup-id compton-trans # Transparency
 exec --no-startup-id chdesktop # Set wallpaper
 exec --no-startup-id synclient NaturalScrolling=1 VertScrollDelta=-113 # Trackpad Scroll
 exec --no-startup-id gnome-settings-daemon # GTK settings and more
-exec --no-startup-id setxkbmap -layout us,gr -option 'caps:escape' -option 'compose:ralt' -option 'grp:win_space_toggle' -option 'shift:both_capslock' # xkeyboard settings
-exec --no-startup-id /home/kalium/.local/bin/keylights.sh # set MSI keylights
-exec --no-startup-id xautolock -detectsleep -time 4 -locker  "/home/kalium/.local/bin/lockscreen.sh" -corners --00 -cornersize 80 -notify 15 -bell 40  # Start autolocker
+exec --no-startup-id setxkbmap -print -I$HOME/.local/share/xkeymaps -layout us,gr,terezi -option 'caps:escape' -option 'compose:ralt' -option 'grp:win_space_toggle' -option 'shift:both_capslock' | xkbcomp -I$HOME/.local/share/xkeymaps - $DISPLAY
+exec --no-startup-id keylights.sh # set MSI keylights
+exec --no-startup-id autolockstart.sh
 
 #Stolen mediakey stuff
 
 # Amixer controls
-bindsym XF86AudioRaiseVolume exec amixer set Master 5%+ # inv volume
+bindsym XF86AudioRaiseVolume exec amixer set Master 5%+ # inc volume
 bindsym XF86AudioLowerVolume exec amixer set Master 5%- # dec volume
 bindsym XF86AudioMute exec pactl set-sink-mute 0 toggle # mute sound
+bindsym $mod+Right exec amixer set Master 5%+ # inc volume
+bindsym $mod+Left exec amixer set Master 5%- # dec volume
 
 # Screen brightness controls
 bindsym XF86MonBrightnessUp exec light -A 3 # increase screen brightness
@@ -268,6 +285,10 @@ bindsym XF86AudioPlay exec cmus-remote -u # cmus toggle playpause
 bindsym XF86AudioPause exec cmus-remote -u # cmus toggle playpause
 bindsym XF86AudioNext exec cmus-remote -n # cmus next
 bindsym XF86AudioPrev exec cmus-remote -r # cmus back
+
+bindsym $mod+slash exec cmus-remote -u
+bindsym $mod+Shift+period exec cmus-remote -n
+bindsym $mod+Shift+comma exec cmus-remote -r
 
 # Various bindings
 bindsym $mod+Shift+v exec kitty --config ~/.config/kitty/vimclip.conf --class vimclip vimclip # run vimclip
