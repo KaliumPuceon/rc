@@ -4,7 +4,7 @@
 sudo rmmod nvidia nvidia_modeset nvidia-drm
 sudo tee /proc/acpi/bbswitch <<<OFF
 
-# Start Integrated w/ Bumblebee
+# Start Integrated w/ Bumblebee enabled
 
 sudo tee /proc/acpi/bbswitch <<<ON
 sudo modprobe nvidia nvidia-modeset

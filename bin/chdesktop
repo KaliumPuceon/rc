@@ -1,3 +1,8 @@
 #! /bin/bash
+if [ -z "$DISPLAY" ]; then
+
+    export DISPLAY=:0
+
+fi
 
 feh --bg-fill `ls -d /home/kalium/media/img/wallpaper/ /home/kalium/media/img/wallpaper/*|grep png|sort -R|head -n 1`
